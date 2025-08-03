@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreshKolor - Games</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .game-cell {
+            width: 80px;
+            height: 80px;
+            background: var(--dark);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .game-cell:hover {
+            background: var(--gray);
+            transform: scale(1.05);
+        }
+        .game-cell:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">FreshKolor</div>
+        <nav class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="posters.html">Posters</a>
+            <a href="games.html">Games</a>
+            <a href="study.html">Study</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Interactive Mini Games</h1>
+        <p>Play fun games directly in your browser - no downloads required!</p>
+    </section>
+
+    <section class="hero" style="margin-top: 40px; padding: 40px 20px;">
+        <h2 style="font-size: 28px; margin-bottom: 20px;">Play Now</h2>
+        
+        <!-- Tic Tac Toe Game -->
+        <div style="max-width: 400px; margin: 0 auto 40px; padding: 20px; background: var(--white); border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Tic Tac Toe</h3>
+            <div id="tic-tac-toe" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; max-width: 300px; margin: 0 auto;">
+                <button class="game-cell" onclick="makeMove(0)"></button>
+                <button class="game-cell" onclick="makeMove(1)"></button>
+                <button class="game-cell" onclick="makeMove(2)"></button>
+                <button class="game-cell" onclick="makeMove(3)"></button>
+                <button class="game-cell" onclick="makeMove(4)"></button>
+                <button class="game-cell" onclick="makeMove(5)"></button>
+                <button class="game-cell" onclick="makeMove(6)"></button>
+                <button class="game-cell" onclick="makeMove(7)"></button>
+                <button class="game-cell" onclick="makeMove(8)"></button>
+            </div>
+            <div id="game-status" style="text-align: center; margin-top: 15px; color: var(--primary); font-weight: bold;">Player X's turn</div>
+            <button onclick="resetGame()" style="display: block; margin: 15px auto; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer;">Reset Game</button>
+        </div>
+
+        <!-- Number Guessing Game -->
+        <div style="max-width: 400px; margin: 0 auto 40px; padding: 20px; background: var(--white); border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Number Guessing Game</h3>
+            <p style="text-align: center; color: #cccccc; margin-bottom: 15px;">Guess a number between 1 and 100!</p>
+            <div style="text-align: center;">
+                <input type="number" id="guess-input" min="1" max="100" placeholder="Enter your guess" style="padding: 8px; border-radius: 5px; border: 1px solid var(--border); background: var(--dark); color: var(--text); margin-right: 10px;">
+                <button onclick="makeGuess()" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;">Guess!</button>
+            </div>
+            <div id="guess-result" style="text-align: center; margin-top: 15px; color: var(--text);"></div>
+            <button onclick="resetGuessing()" style="display: block; margin: 15px auto; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer;">New Game</button>
+        </div>
+
+        <!-- Rock Paper Scissors -->
+        <div style="max-width: 400px; margin: 0 auto 40px; padding: 20px; background: var(--white); border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Rock Paper Scissors</h3>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button onclick="playRPS('rock')" style="margin: 5px; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 20px;">🪨</button>
+                <button onclick="playRPS('paper')" style="margin: 5px; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 20px;">📄</button>
+                <button onclick="playRPS('scissors')" style="margin: 5px; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 20px;">✂️</button>
+            </div>
+            <div id="rps-result" style="text-align: center; color: var(--text);"></div>
+            <div id="rps-score" style="text-align: center; margin-top: 10px; color: #cccccc;">Score: You 0 - 0 Computer</div>
+        </div>
+
+        <!-- Memory Game -->
+        <div style="max-width: 400px; margin: 0 auto 40px; padding: 20px; background: var(--white); border-radius: 16px; border: 1px solid var(--border);">
+            <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Memory Match</h3>
+            <p style="text-align: center; color: #cccccc; margin-bottom: 15px;">Click cards to find matching pairs!</p>
+            <div id="memory-game" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 320px; margin: 0 auto;">
+                <!-- Memory cards will be generated by JavaScript -->
+            </div>
+            <div id="memory-status" style="text-align: center; margin-top: 15px; color: var(--text);">Moves: 0 | Matches: 0/8</div>
+            <button onclick="resetMemory()" style="display: block; margin: 15px auto; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer;">New Game</button>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>&copy; 2025 FreshKolor. Designed by Karthikeya.</p>
+        <div style="margin-top: 15px; color: #cccccc;">
+            <p><strong>Contact Information:</strong></p>
+            <p>Name: Karthikeya</p>
+            <p>ID: 322506402085</p>
+            <p>Class: 4/6 CSE-2</p>
+        </div>
+    </footer>
+
+    <script>
+        // Tic Tac Toe Game
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+
+        function makeMove(index) {
+            if (board[index] !== '' || !gameActive) return;
+            
+            board[index] = currentPlayer;
+            document.querySelectorAll('.game-cell')[index].textContent = currentPlayer;
+            
+            if (checkWinner()) {
+                document.getElementById('game-status').textContent = `Player ${currentPlayer} wins! 🎉`;
+                gameActive = false;
+                return;
+            }
+            
+            if (board.every(cell => cell !== '')) {
+                document.getElementById('game-status').textContent = "It's a draw! 🤝";
+                gameActive = false;
+                return;
+            }
+            
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            document.getElementById('game-status').textContent = `Player ${currentPlayer}'s turn`;
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                [0, 4, 8], [2, 4, 6] // diagonals
+            ];
+            
+            return winPatterns.some(pattern => {
+                return pattern.every(index => board[index] === currentPlayer);
+            });
+        }
+
+        function resetGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            document.querySelectorAll('.game-cell').forEach(cell => cell.textContent = '');
+            document.getElementById('game-status').textContent = "Player X's turn";
+        }
+
+        // Number Guessing Game
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let guessCount = 0;
+
+        function makeGuess() {
+            const guess = parseInt(document.getElementById('guess-input').value);
+            const result = document.getElementById('guess-result');
+            guessCount++;
+            
+            if (guess === randomNumber) {
+                result.innerHTML = `🎉 Congratulations! You guessed it in ${guessCount} tries!`;
+                result.style.color = 'var(--primary)';
+            } else if (guess < randomNumber) {
+                result.innerHTML = `📈 Too low! Try a higher number. (Attempt ${guessCount})`;
+                result.style.color = '#cccccc';
+            } else {
+                result.innerHTML = `📉 Too high! Try a lower number. (Attempt ${guessCount})`;
+                result.style.color = '#cccccc';
+            }
+            
+            document.getElementById('guess-input').value = '';
+        }
+
+        function resetGuessing() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            guessCount = 0;
+            document.getElementById('guess-result').innerHTML = '';
+            document.getElementById('guess-input').value = '';
+        }
+
+        // Rock Paper Scissors
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function playRPS(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+            const result = document.getElementById('rps-result');
+            const score = document.getElementById('rps-score');
+            
+            const emojis = {
+                rock: '🪨',
+                paper: '📄',
+                scissors: '✂️'
+            };
+            
+            let resultText = `You: ${emojis[playerChoice]} vs Computer: ${emojis[computerChoice]}<br>`;
+            
+            if (playerChoice === computerChoice) {
+                resultText += "It's a tie! 🤝";
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                resultText += "You win! 🎉";
+                playerScore++;
+            } else {
+                resultText += "Computer wins! 🤖";
+                computerScore++;
+            }
+            
+            result.innerHTML = resultText;
+            score.innerHTML = `Score: You ${playerScore} - ${computerScore} Computer`;
+        }
+
+        // Memory Game
+        let memoryCards = [];
+        let flippedCards = [];
+        let moves = 0;
+        let matches = 0;
+        const cardSymbols = ['🌟', '🎨', '🎮', '🔥', '💎', '🚀', '🎯', '⚡'];
+
+        function initMemoryGame() {
+            const gameGrid = document.getElementById('memory-game');
+            memoryCards = [...cardSymbols, ...cardSymbols].sort(() => Math.random() - 0.5);
+            gameGrid.innerHTML = '';
+            
+            memoryCards.forEach((symbol, index) => {
+                const card = document.createElement('button');
+                card.className = 'memory-card';
+                card.style.cssText = `
+                    width: 70px; height: 70px; background: var(--dark); 
+                    border: 2px solid var(--border); border-radius: 8px; 
+                    font-size: 20px; cursor: pointer; transition: all 0.3s;
+                `;
+                card.onclick = () => flipCard(index, card);
+                gameGrid.appendChild(card);
+            });
+            
+            moves = 0;
+            matches = 0;
+            flippedCards = [];
+            updateMemoryStatus();
+        }
+
+        function flipCard(index, cardElement) {
+            if (flippedCards.length === 2 || flippedCards.includes(index) || cardElement.disabled) return;
+            
+            cardElement.textContent = memoryCards[index];
+            cardElement.style.background = 'var(--primary)';
+            flippedCards.push(index);
+            
+            if (flippedCards.length === 2) {
+                moves++;
+                setTimeout(() => checkMatch(), 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [first, second] = flippedCards;
+            const cards = document.querySelectorAll('.memory-card');
+            
+            if (memoryCards[first] === memoryCards[second]) {
+                cards[first].disabled = true;
+                cards[second].disabled = true;
+                cards[first].style.opacity = '0.7';
+                cards[second].style.opacity = '0.7';
+                matches++;
+                
+                if (matches === 8) {
+                    document.getElementById('memory-status').innerHTML = `🎉 You won in ${moves} moves!`;
+                }
+            } else {
+                cards[first].textContent = '';
+                cards[second].textContent = '';
+                cards[first].style.background = 'var(--dark)';
+                cards[second].style.background = 'var(--dark)';
+            }
+            
+            flippedCards = [];
+            updateMemoryStatus();
+        }
+
+        function updateMemoryStatus() {
+            if (matches < 8) {
+                document.getElementById('memory-status').textContent = `Moves: ${moves} | Matches: ${matches}/8`;
+            }
+        }
+
+        function resetMemory() {
+            initMemoryGame();
+        }
+
+        // Allow Enter key for number guessing
+        document.addEventListener('DOMContentLoaded', function() {
+            initMemoryGame();
+            
+            document.getElementById('guess-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    makeGuess();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
