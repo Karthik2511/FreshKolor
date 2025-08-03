@@ -6,6 +6,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FreshKolor - Home</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background: var(--darker);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 80px;
+                transition: right 0.3s ease;
+                border-left: 1px solid var(--border);
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links a {
+                margin: 20px 0;
+                font-size: 18px;
+                padding: 10px 20px;
+                border-radius: 8px;
+                transition: background 0.3s;
+            }
+            
+            .nav-links a:hover {
+                background: var(--gray);
+            }
+            
+            .navbar {
+                padding: 20px 20px;
+            }
+        }
+        
+        /* Overlay for mobile menu */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .mobile-overlay.active {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,7 +106,14 @@
             <a href="study.html">Study</a>
             <a href="contact.html">Contact</a>
         </nav>
+        <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
+    
+    <div class="mobile-overlay" onclick="closeMobileMenu()"></div>
 
     <section class="hero">
         <h1>Welcome to FreshKolor</h1>
@@ -76,6 +171,40 @@
     <footer id="contact">
         <p>&copy; 2025 FreshKolor. Designed by Karthikeya.</p>
     </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            navLinks.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+        
+        function closeMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            navLinks.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        
+        // Close mobile menu when clicking on a nav link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // Close mobile menu when window is resized to desktop view
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+    </script>
 </body>
 
 </html>
